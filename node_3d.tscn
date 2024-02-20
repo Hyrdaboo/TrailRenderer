@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://lmy2m5oj0n1x"]
 
-[ext_resource type="Script" path="res://NoclipCamera.cs" id="1_m11o4"]
-[ext_resource type="Script" path="res://DeleteMe.cs" id="2_6n1im"]
+[ext_resource type="Script" path="res://junk/NoclipCamera.cs" id="1_m11o4"]
+[ext_resource type="Script" path="res://junk/DeleteMe.cs" id="2_6n1im"]
 [ext_resource type="Script" path="res://addons/TrailRenderer/TrailRenderer.cs" id="2_hn4ym"]
 [ext_resource type="Texture2D" uid="uid://b5uxhk2nh0b7x" path="res://icon.svg" id="4_6s4x1"]
 
@@ -26,7 +26,8 @@ albedo_texture = ExtResource("4_6s4x1")
 disable_receive_shadows = true
 
 [sub_resource type="Gradient" id="Gradient_vwrer"]
-colors = PackedColorArray(0.878906, 0.9375, 0, 1, 0.640625, 0.0400391, 0.565552, 1)
+offsets = PackedFloat32Array(0, 0.80597)
+colors = PackedColorArray(0.09375, 1, 0, 1, 1, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_51vn7"]
 albedo_color = Color(0.0313726, 0, 1, 1)
@@ -55,12 +56,11 @@ target = NodePath("../../LineRenderer")
 [node name="LineRenderer" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 script = ExtResource("2_hn4ym")
-Lifetime = 100.0
 MinVertexDistance = 1.0
 alignment = 0
 material = SubResource("StandardMaterial3D_i4tlt")
 colorGradient = SubResource("Gradient_vwrer")
-textureMode = 1
+textureMode = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LineRenderer"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)

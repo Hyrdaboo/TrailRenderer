@@ -147,7 +147,7 @@ public partial class LineRenderer : Node3D
         {
             Point currentPoint = points[i];
 
-            Vector3 tangent = i == 0 ? currentPoint.Position.DirectionTo(points[i+1].Position) : -currentPoint.Position.DirectionTo(points[i-1].Position);
+            Vector3 tangent = i == 0 ? currentPoint.Position.DirectionTo(points[1].Position) : -currentPoint.Position.DirectionTo(points[i-1].Position);
             Vector3 bitangent;
             if (alignment == Alignment.View && worldSpace)
             {

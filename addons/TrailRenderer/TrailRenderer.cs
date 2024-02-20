@@ -65,12 +65,17 @@ public partial class TrailRenderer : LineRenderer
                 lr.QueueFree();
             }
 
+            if (!tr.Emitting)
+            {
+                lastSpawnPoint = tr.GlobalPosition;
+                return;
+            }
             AddPoints();
         }
 
         private void AddPoints()
         {
-            if (dirty || !tr.Emitting)
+            if (dirty)
                 return;
 
             if (lr.Points.Count == 0 && isMoving)
