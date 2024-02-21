@@ -156,8 +156,8 @@ public partial class LineRenderer : Node3D
             else if (alignment == Alignment.TransformZ && worldSpace)
                 bitangent = GlobalBasis.Orthonormalized().Z;
             else
-                bitangent = currentPoint.Bitangent;
-            Vector3 normal = tangent.Cross(bitangent);
+                bitangent = currentPoint.Bitangent.Normalized();
+            Vector3 normal = tangent.Cross(bitangent).Normalized();
             
             float t = i / (points.Count - 1.0f);
             Color color = colorGradient.Sample(t);

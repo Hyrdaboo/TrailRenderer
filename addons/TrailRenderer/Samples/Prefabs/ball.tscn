@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://n8g1m2rpv816"]
+
+[ext_resource type="Script" path="res://addons/TrailRenderer/Runtime/TrailRenderer.cs" id="1_5mxp5"]
+[ext_resource type="Texture2D" uid="uid://b5uxhk2nh0b7x" path="res://icon.svg" id="2_7q0bg"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jsrom"]
+radius = 0.155
+
+[sub_resource type="SphereMesh" id="SphereMesh_t111q"]
+
+[sub_resource type="Curve" id="Curve_qxmkk"]
+max_value = 0.2
+_data = [Vector2(0, 0), 0.0, 0.151698, 0, 1, Vector2(1, 0.151698), 0.151698, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_si1ce"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.498039)
+albedo_texture = ExtResource("2_7q0bg")
+uv1_scale = Vector3(1, 3, 1)
+disable_receive_shadows = true
+
+[node name="Ball" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.245307, -0.969445, 0, 0.969445, 0.245307, -1.15976, 4.2687, -5.5887)
+continuous_cd = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_jsrom")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("SphereMesh_t111q")
+
+[node name="TrailRenderer" type="Node3D" parent="."]
+script = ExtResource("1_5mxp5")
+Lifetime = 0.5
+MinVertexDistance = 0.1
+curve = SubResource("Curve_qxmkk")
+alignment = 0
+material = SubResource("StandardMaterial3D_si1ce")
+textureMode = 1

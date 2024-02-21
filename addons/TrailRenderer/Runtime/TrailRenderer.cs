@@ -88,12 +88,16 @@ public partial class TrailRenderer : LineRenderer
             {
                 Vector3 previousPosition = lr.Points[^2].Position;
                 lr.Points[^2].Position = lr.GlobalPosition;
-                lr.Points.Insert(lr.Points.Count - 2, new Point(previousPosition, tr.GlobalBasis.Z));
+                lr.Points.Insert(lr.Points.Count - 2, new Point(previousPosition, tr.GlobalBasis.X.Normalized()));
                 lastSpawnPoint = lr.GlobalPosition;
             }
 
-            if (lr.Points.Count > 0)
+            if (lr.Points.Count > 1)
+            {
                 lr.Points[^1].Position = lr.GlobalPosition;
+                lr.Points[^1].Bitangent = tr.GlobalBasis.X;
+                lr.Points[^2].Bitangent = tr.GlobalBasis.X;
+            }
         }
 
         private void RemovePoints()
