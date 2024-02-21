@@ -80,7 +80,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.905432, 4.63507, -8.52792)
 curve = SubResource("Curve3D_6yaom")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
-transform = Transform3D(-0.512743, 0.0590446, 0.856493, -7.45042e-09, 0.997604, -0.0687748, -0.858517, -0.035264, -0.511535, 0.346717, 0.265111, -3.17846)
+transform = Transform3D(-0.512743, 0.0590445, 0.856493, -7.45042e-09, 0.997604, -0.0687748, -0.858517, -0.0352639, -0.511535, 0.346717, 0.265111, -3.17846)
 use_model_front = true
 script = ExtResource("2_wpfdk")
 
