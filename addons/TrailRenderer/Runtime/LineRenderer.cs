@@ -8,7 +8,7 @@ public partial class LineRenderer : Node3D
     public class Point
     {
         public Vector3 Position;
-        public Vector3 Bitangent;
+        public Vector3 alignmentVector;
         /// <summary>
         /// DO NOT MODIFY THIS. Used internally by the LineRenderer.
         /// </summary>
@@ -20,7 +20,7 @@ public partial class LineRenderer : Node3D
             bitangent ??= Vector3.Forward;
 
             Position = position;
-            Bitangent = bitangent.Value.Normalized();
+            alignmentVector = bitangent.Value.Normalized();
             Time = Godot.Time.GetTicksMsec() / 1000.0f;
         }
     }
@@ -148,15 +148,15 @@ public partial class LineRenderer : Node3D
             Point currentPoint = points[i];
 
             Vector3 tangent = i == 0 ? currentPoint.Position.DirectionTo(points[1].Position) : -currentPoint.Position.DirectionTo(points[i-1].Position);
-            Vector3 bitangent;
+            Vector3 alignmentVec;
             if (alignment == Alignment.View && worldSpace)
-            {
-                bitangent = camera.Basis.Z.Cross(tangent).Normalized();
-            }
+                alignmentVec = camera.GlobalBasis.Z.Normalized();
             else if (alignment == Alignment.TransformZ && worldSpace)
-                bitangent = GlobalBasis.Orthonormalized().Z;
+                alignmentVec = GlobalBasis.Z.Normalized();
             else
-                bitangent = currentPoint.Bitangent.Normalized();
+                alignmentVec = currentPoint.alignmentVector.Normalized();
+            
+            Vector3 bitangent = alignmentVec.Cross(tangent).Normalized();
             Vector3 normal = tangent.Cross(bitangent).Normalized();
             
             float t = i / (points.Count - 1.0f);

@@ -95,8 +95,8 @@ public partial class TrailRenderer : LineRenderer
             if (lr.Points.Count > 1)
             {
                 lr.Points[^1].Position = lr.GlobalPosition;
-                lr.Points[^1].Bitangent = tr.GlobalBasis.X;
-                lr.Points[^2].Bitangent = tr.GlobalBasis.X;
+                lr.Points[^1].alignmentVector = tr.GlobalBasis.X;
+                lr.Points[^2].alignmentVector = tr.GlobalBasis.X;
             }
         }
 

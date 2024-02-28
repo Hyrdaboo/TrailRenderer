@@ -64,9 +64,9 @@ Simply create a new _Node3D_ and add a TrailRenderer script to it. You can move 
   * **Cast Shadows:** Set the shadow casting mode for the trail mesh
   * **Color Gradient:** Define a gradient to control the color of the trail along its length. (You need to enable _**Material>Vertex Color>Use As Albedo**_ for this to work)
   * **Texture Mode:** Control how the Texture is applied to the trail.
-    * **Stretch:** Map the texture once along the entire length of the trail.
-    * **Tile:** Repeat the texture along the trail, based on its length in world units. Use the material UV1 to change the tiling rate.
-    * **Per Segment:** Repeat the texture along the trail, repeating at a rate of once per trail segment.
+	* **Stretch:** Map the texture once along the entire length of the trail.
+	* **Tile:** Repeat the texture along the trail, based on its length in world units. Use the material UV1 to change the tiling rate.
+	* **Per Segment:** Repeat the texture along the trail, repeating at a rate of once per trail segment.
 
 > [!NOTE]
 > Trail renderer specific parameters are defined in the _TrailRenderer_ category and the things related to the way trail is drawn are in the _LineRenderer_ category
