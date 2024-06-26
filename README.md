@@ -21,6 +21,8 @@
 
 ## About
 This is an implementation of trail/ribbon renderer similar to that in Unity. It can be used to give an emphasized feeling of motion to a moving object, or to highlight the path or position of moving objects. It also comes with a LineRenderer which is actually what's used by the TrailRenderer to draw the trail. Note that this plugin only supports 3D.
+
+**Update:** There's now a GDScript implementation. Use ```TrailRenderer.cs``` with C# and similarly ```trail_renderer.gd``` for GDScript. Both C# and GDScript implementations are in the _addons/TrailRenderer/Runtime_ folder.
 ## Features
 * Variable width with curve
 * Variable color with gradient
