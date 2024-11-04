@@ -17,8 +17,7 @@ func _enter_tree() -> void:
 
 func _process(delta: float) -> void:
 	if not _is_emitting_last_frame and is_emitting:
-		var trail_piece: TrailPiece = _trail_pieces[0]
-		if _trail_pieces.size() == 0 or trail_piece.is_dirty():
+		if _trail_pieces.size() == 0 or _trail_pieces[0].is_dirty():
 			_trail_pieces.insert(0, TrailPiece.new(self))
 	_is_emitting_last_frame = is_emitting
 
