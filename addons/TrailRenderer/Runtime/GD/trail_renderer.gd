@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 		_trail_pieces[0].on_delete_complete = _on_delete_complete
 
 	for trail_piece in _trail_pieces:
-		if trail_piece and not trail_piece.is_queued_for_deletion():
+		if is_instance_valid(trail_piece) and not trail_piece.is_queued_for_deletion():
 			trail_piece.process(delta)
 
 
