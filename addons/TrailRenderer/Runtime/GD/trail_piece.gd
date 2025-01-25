@@ -25,6 +25,7 @@ func _init(source_trail_renderer: TrailRenderer) -> void:
 
 
 func process(delta: float) -> void:
+	if not is_instance_valid(_line_renderer) or not is_instance_valid(_trail_renderer): return
 	_line_renderer.copy_values(_trail_renderer)
 	_time = Time.get_ticks_msec() / 1000.0
 
