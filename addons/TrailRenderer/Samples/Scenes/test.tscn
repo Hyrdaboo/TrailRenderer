@@ -1,0 +1,89 @@
+[gd_scene load_steps=15 format=3 uid="uid://clu3iqv37ihek"]
+
+[ext_resource type="Script" uid="uid://berm88hpnmryl" path="res://addons/TrailRenderer/testFolder/MouseFollow.cs" id="1_4fpc4"]
+[ext_resource type="Script" uid="uid://dv6ser7ob4efb" path="res://addons/TrailRenderer/Runtime/TrailRenderer.cs" id="1_dcm2h"]
+[ext_resource type="Texture2D" uid="uid://b5uxhk2nh0b7x" path="res://icon.svg" id="2_4fpc4"]
+[ext_resource type="Script" uid="uid://bd52onov5rfr3" path="res://addons/TrailRenderer/testFolder/LineRnTest.cs" id="4_p16s4"]
+[ext_resource type="Script" uid="uid://q4cld1eqkfsr" path="res://addons/TrailRenderer/Runtime/LineRenderer.cs" id="5_p16s4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4fpc4"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_a4ksj"]
+sky_material = SubResource("ProceduralSkyMaterial_4fpc4")
+
+[sub_resource type="Environment" id="Environment_p16s4"]
+background_mode = 2
+sky = SubResource("Sky_a4ksj")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="Curve" id="Curve_a4ksj"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 1, Vector2(1, 0.5), 0.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_p16s4"]
+albedo_texture = ExtResource("2_4fpc4")
+
+[sub_resource type="QuadMesh" id="QuadMesh_4fpc4"]
+
+[sub_resource type="Curve3D" id="Curve3D_4fpc4"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.0038571358, -0.01911056, 0.40062976, 0, 0, -2, 0, 0, 2, 0, 0, 3.061, 0, 0, 0, 0, 0, 0, 0, 1, 6.547),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_wyuvx"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 1, Vector2(1, 0.5), 0.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_koq4h"]
+cull_mode = 2
+albedo_texture = ExtResource("2_4fpc4")
+
+[node name="Test" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_p16s4")
+
+[node name="Handle" type="Node3D" parent="."]
+script = ExtResource("1_4fpc4")
+
+[node name="Trail" type="Node3D" parent="Handle"]
+script = ExtResource("1_dcm2h")
+curve = SubResource("Curve_a4ksj")
+alignment = 0
+material = SubResource("ORMMaterial3D_p16s4")
+textureMode = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(31.94, 0, 0, 0, -1.3961418e-06, 31.94, 0, -31.94, -1.3961418e-06, 0, 0, 0)
+visible = false
+mesh = SubResource("QuadMesh_4fpc4")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 16.48, 0)
+current = true
+
+[node name="Path3D" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.05779)
+curve = SubResource("Curve3D_4fpc4")
+
+[node name="Transformer" type="Node3D" parent="Path3D" node_paths=PackedStringArray("path", "lr")]
+script = ExtResource("4_p16s4")
+path = NodePath("..")
+lr = NodePath("../LineRenderer")
+
+[node name="LineRenderer" type="Node3D" parent="Path3D"]
+script = ExtResource("5_p16s4")
+curve = SubResource("Curve_wyuvx")
+alignment = 0
+material = SubResource("StandardMaterial3D_koq4h")
+textureMode = 1
+metadata/_custom_type_script = "uid://cd73552xryr2y"

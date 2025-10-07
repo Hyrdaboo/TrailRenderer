@@ -1,10 +1,11 @@
 ﻿using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class LineRenderer : Node3D
 {
     public enum Alignment { View, TransformZ, Static }
-    public enum TextureMode { Stretch, Tile, PerSegment }
+    public enum TextureMode { Stretch, Tile, DistributePerSegment, RepeatPerSegment }
     public class Point
     {
         public Vector3 Position;
@@ -143,6 +144,8 @@ public partial class LineRenderer : Node3D
 
         mesh.SurfaceBegin(Mesh.PrimitiveType.TriangleStrip);
 
+        float totalLength = points.Zip(points.Skip(1), (a, b) => a.Position.DistanceTo(b.Position)).Sum();
+        float accumulatedLength = 0;
         for (int i = 0; i < points.Count; i++)
         {
             Point currentPoint = points[i];
@@ -166,16 +169,28 @@ public partial class LineRenderer : Node3D
             switch (textureMode)
             {
                 case TextureMode.Stretch:
-                    currentPoint.textureOffset = i / (points.Count - 1.0f);
-                    break;
-                case TextureMode.Tile:
                     if (i > 0)
                     {
                         Point previous = points[i - 1];
-                        currentPoint.textureOffset = currentPoint.Position.DistanceTo(previous.Position) + previous.textureOffset;
+                        accumulatedLength += currentPoint.Position.DistanceTo(previous.Position);
+                    }
+                    currentPoint.textureOffset = accumulatedLength / totalLength;
+                    break;
+                case TextureMode.DistributePerSegment:
+                    currentPoint.textureOffset = i / (points.Count - 1.0f);
+                    break;
+                case TextureMode.Tile:
+                    if (i < (points.Count - 1))
+                    {
+                        Point current = points[points.Count - 1 - i];
+                        Point next = points[points.Count - 2 - i];
+                        current.textureOffset = 1 - accumulatedLength;
+                        float currentDist = current.Position.DistanceTo(next.Position);
+                        accumulatedLength += currentDist;
+                        next.textureOffset = 1 - (accumulatedLength);
                     }
                     break;
-                case TextureMode.PerSegment:
+                case TextureMode.RepeatPerSegment:
                     currentPoint.textureOffset = i;
                     break;
                 default:
