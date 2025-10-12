@@ -38,6 +38,7 @@ public partial class TrailRenderer : LineRenderer
 
         public void Update(float delta)
         {
+            lr.isModifiedByTrailRenderer = true;
             lr.CopyValues(tr);
             time = Time.GetTicksMsec() / 1000.0f;
 
@@ -50,7 +51,9 @@ public partial class TrailRenderer : LineRenderer
             }
 
             if (lr.Points.Count == 0)
+            {
                 aliveTime = 0;
+            }
 
             isMoving = lastPosition != lr.GlobalPosition;
             lastPosition = lr.GlobalPosition;
@@ -73,6 +76,7 @@ public partial class TrailRenderer : LineRenderer
             AddPoints();
         }
 
+        // The latest point is updated here. It is equal to GlobalPosition of the TrailRenderer.
         private void AddPoints()
         {
             if (dirty)
@@ -86,37 +90,43 @@ public partial class TrailRenderer : LineRenderer
 
             if (lastSpawnPoint.DistanceTo(lr.GlobalPosition) > tr.MinVertexDistance && lr.Points.Count > 0)
             {
+                // rollback to this
                 Vector3 previousPosition = lr.Points[^2].Position;
+                float previousOffset = lr.Points[^2].textureOffset;
                 lr.Points[^2].Position = lr.GlobalPosition;
-                lr.Points.Insert(lr.Points.Count - 2, new Point(previousPosition, tr.GlobalBasis.X.Normalized()));
+                lr.Points[^2].textureOffset = previousOffset + lr.Points[^2].Position.DistanceTo(previousPosition);
+                lr.Points.Insert(lr.Points.Count - 2, new Point(previousPosition, previousOffset, tr.GlobalBasis.X.Normalized()));
                 lastSpawnPoint = lr.GlobalPosition;
             }
 
             if (lr.Points.Count > 1)
             {
+                lr.Points[^1].textureOffset = lr.Points[^2].textureOffset + lr.Points[^1].Position.DistanceTo(lr.Points[^2].Position);
                 lr.Points[^1].Position = lr.GlobalPosition;
                 lr.Points[^1].alignmentVector = tr.GlobalBasis.X;
                 lr.Points[^2].alignmentVector = tr.GlobalBasis.X;
             }
         }
 
+        // The first point is updated here. It is moved towards the second point over time, then removed once it reaches.
         private void RemovePoints()
         {
             if (remainingLifetime > 0)
                 return;
 
-            firstPointOriginal ??= new Point(lr.Points[0].Position);
+            firstPointOriginal ??= new Point(lr.Points[0].Position, lr.Points[0].textureOffset);
 
             while (lr.Points.Count > 0 && time >= lr.Points[0].Time + aliveTime)
             {
                 lr.Points.RemoveAt(0);
-                firstPointOriginal = lr.Points.Count > 0 ? new Point(lr.Points[0].Position) : null;
+                firstPointOriginal = lr.Points.Count > 0 ? new Point(lr.Points[0].Position, lr.Points[0].textureOffset) : null;
             }
 
             if (lr.Points.Count >= 2)
             {
                 float t = Mathf.InverseLerp(firstPointOriginal.Time, lr.Points[0].Time + aliveTime, time);
                 lr.Points[0].Position = firstPointOriginal.Position.Lerp(lr.Points[1].Position, t);
+                lr.Points[0].textureOffset = Mathf.Lerp(firstPointOriginal.textureOffset, lr.Points[1].textureOffset, t);
             }
         }
     }
@@ -129,7 +139,7 @@ public partial class TrailRenderer : LineRenderer
     private bool emittingLastFrame;
 
     public override void _Ready()
-    {   
+    {
         trailPieces.Add(new TrailPiece(this));
     }
 

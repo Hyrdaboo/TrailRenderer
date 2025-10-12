@@ -5,7 +5,7 @@ using System.Linq;
 public partial class LineRenderer : Node3D
 {
     public enum Alignment { View, TransformZ, Static }
-    public enum TextureMode { Stretch, Tile, DistributePerSegment, RepeatPerSegment }
+    public enum TextureMode { Stretch, Tile, DistributePerSegment, RepeatPerSegment, Static }
     public class Point
     {
         public Vector3 Position;
@@ -16,8 +16,9 @@ public partial class LineRenderer : Node3D
         public float textureOffset;
         public readonly float Time;
 
-        public Point(Vector3 position , Vector3? bitangent = null)
+        public Point(Vector3 position, float textureOffset = 0, Vector3? bitangent = null)
         {
+            this.textureOffset = textureOffset;
             bitangent ??= Vector3.Forward;
 
             Position = position;
@@ -39,6 +40,12 @@ public partial class LineRenderer : Node3D
     private ImmediateMesh mesh = new ImmediateMesh();
     private MeshInstance3D meshInstance;
     private Camera3D camera;
+
+    /// <summary>
+    /// Set to true by TrailRenderer to avoid overwriting textureOffset.
+    /// Do not modify this manually, unless you know what you're doing.
+    /// </summary>
+    public bool isModifiedByTrailRenderer = false;
 
     public Curve Curve
     {
@@ -180,18 +187,26 @@ public partial class LineRenderer : Node3D
                     currentPoint.textureOffset = i / (points.Count - 1.0f);
                     break;
                 case TextureMode.Tile:
-                    if (i < (points.Count - 1))
+                    if (i > 0)
                     {
-                        Point current = points[points.Count - 1 - i];
-                        Point next = points[points.Count - 2 - i];
-                        current.textureOffset = 1 - accumulatedLength;
-                        float currentDist = current.Position.DistanceTo(next.Position);
-                        accumulatedLength += currentDist;
-                        next.textureOffset = 1 - (accumulatedLength);
+                        Point previous = points[i - 1];
+                        accumulatedLength += currentPoint.Position.DistanceTo(previous.Position);
                     }
+                    currentPoint.textureOffset = 1 - (totalLength - accumulatedLength);
                     break;
                 case TextureMode.RepeatPerSegment:
                     currentPoint.textureOffset = i;
+                    break;
+                case TextureMode.Static:
+                    if (!isModifiedByTrailRenderer)
+                    {
+                        if (i > 0)
+                        {
+                            Point previous = points[i - 1];
+                            accumulatedLength += currentPoint.Position.DistanceTo(previous.Position);
+                        }
+                        currentPoint.textureOffset = 1 - (totalLength - accumulatedLength);
+                    }
                     break;
                 default:
                     break;

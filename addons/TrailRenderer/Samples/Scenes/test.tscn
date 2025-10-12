@@ -29,11 +29,12 @@ albedo_texture = ExtResource("2_4fpc4")
 [sub_resource type="QuadMesh" id="QuadMesh_4fpc4"]
 
 [sub_resource type="Curve3D" id="Curve3D_4fpc4"]
+closed = true
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.0038571358, -0.01911056, 0.40062976, 0, 0, -2, 0, 0, 2, 0, 0, 3.061, 0, 0, 0, 0, 0, 0, 0, 1, 6.547),
-"tilts": PackedFloat32Array(0, 0, 0)
+"points": PackedVector3Array(-1.1351825, -0.6701714, -0.78844905, 1.1351825, 0.6701714, 0.78844905, -2.8808157, 1.7824408, 0.35449386, 0.24137878, 1.0592661, -1.225302, -0.24137878, -1.0592661, 1.225302, -1.319731, 2.9705398, 3.0965137, -0.80655646, 0.18765092, -1.4705935, 0.80655646, -0.18765092, 1.4705935, 0.011831999, 2.0207, 5.9257164, 1.0233529, 0.77199805, -0.647151, -1.0233529, -0.77199805, 0.647151, -0.25849962, 1.0921462, 9.723489, 0.8073635, 0.7079427, 4.4170504, -0.8073635, -0.7079427, -4.4170504, -2.2429461, -1.7113924, 5.2060065),
+"tilts": PackedFloat32Array(0, 0, 0.5378387, 0, 0)
 }
-point_count = 3
+point_count = 5
 
 [sub_resource type="Curve" id="Curve_wyuvx"]
 _data = [Vector2(0, 0.5), 0.0, 0.0, 0, 1, Vector2(1, 0.5), 0.0, 0.0, 1, 0]
@@ -56,11 +57,13 @@ environment = SubResource("Environment_p16s4")
 script = ExtResource("1_4fpc4")
 
 [node name="Trail" type="Node3D" parent="Handle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20210266, 0, 0)
 script = ExtResource("1_dcm2h")
+MinVertexDistance = 1.0
 curve = SubResource("Curve_a4ksj")
 alignment = 0
 material = SubResource("ORMMaterial3D_p16s4")
-textureMode = 1
+textureMode = 4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(31.94, 0, 0, 0, -1.3961418e-06, 31.94, 0, -31.94, -1.3961418e-06, 0, 0, 0)
@@ -68,22 +71,23 @@ visible = false
 mesh = SubResource("QuadMesh_4fpc4")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 16.48, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 11.98, 0)
 current = true
 
 [node name="Path3D" type="Path3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.05779)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.045332, -0.6438999, -4.2421694)
 curve = SubResource("Curve3D_4fpc4")
 
 [node name="Transformer" type="Node3D" parent="Path3D" node_paths=PackedStringArray("path", "lr")]
 script = ExtResource("4_p16s4")
 path = NodePath("..")
 lr = NodePath("../LineRenderer")
+resolution = 23
 
 [node name="LineRenderer" type="Node3D" parent="Path3D"]
 script = ExtResource("5_p16s4")
 curve = SubResource("Curve_wyuvx")
 alignment = 0
 material = SubResource("StandardMaterial3D_koq4h")
-textureMode = 1
+textureMode = 4
 metadata/_custom_type_script = "uid://cd73552xryr2y"
