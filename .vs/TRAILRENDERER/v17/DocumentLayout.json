@@ -7,16 +7,16 @@
       "RelativeMoniker": "D:0:0:{62ECA976-D557-4A50-818F-5DD58586CDC9}|TrailRenderer.csproj|solutionrelative:addons\\trailrenderer\\runtime\\linerenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{62ECA976-D557-4A50-818F-5DD58586CDC9}|TrailRenderer.csproj|c:\\users\\fakhr\\godotprojects\\trailrenderer\\addons\\trailrenderer\\testfolder\\linerntest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62ECA976-D557-4A50-818F-5DD58586CDC9}|TrailRenderer.csproj|solutionrelative:addons\\trailrenderer\\testfolder\\linerntest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{62ECA976-D557-4A50-818F-5DD58586CDC9}|TrailRenderer.csproj|c:\\users\\fakhr\\godotprojects\\trailrenderer\\addons\\trailrenderer\\runtime\\trailrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{62ECA976-D557-4A50-818F-5DD58586CDC9}|TrailRenderer.csproj|solutionrelative:addons\\trailrenderer\\runtime\\trailrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{62ECA976-D557-4A50-818F-5DD58586CDC9}|TrailRenderer.csproj|c:\\users\\fakhr\\godotprojects\\trailrenderer\\addons\\trailrenderer\\testfolder\\mousefollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{62ECA976-D557-4A50-818F-5DD58586CDC9}|TrailRenderer.csproj|solutionrelative:addons\\trailrenderer\\testfolder\\mousefollow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{62ECA976-D557-4A50-818F-5DD58586CDC9}|TrailRenderer.csproj|c:\\users\\fakhr\\godotprojects\\trailrenderer\\addons\\trailrenderer\\testfolder\\linerntest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{62ECA976-D557-4A50-818F-5DD58586CDC9}|TrailRenderer.csproj|solutionrelative:addons\\trailrenderer\\testfolder\\linerntest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -44,48 +44,48 @@
               "RelativeDocumentMoniker": "addons\\TrailRenderer\\Runtime\\LineRenderer.cs",
               "ToolTip": "C:\\Users\\Fakhr\\GodotProjects\\TrailRenderer\\addons\\TrailRenderer\\Runtime\\LineRenderer.cs",
               "RelativeToolTip": "addons\\TrailRenderer\\Runtime\\LineRenderer.cs",
-              "ViewState": "AQIAAMsAAAAAAAAAAAAqwC0AAABHAAAA",
+              "ViewState": "AQIAAAoBAAAAAAAAAAAcwIYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-02-28T19:41:55.201Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "TrailRenderer.cs",
               "DocumentMoniker": "C:\\Users\\Fakhr\\GodotProjects\\TrailRenderer\\addons\\TrailRenderer\\Runtime\\TrailRenderer.cs",
               "RelativeDocumentMoniker": "addons\\TrailRenderer\\Runtime\\TrailRenderer.cs",
               "ToolTip": "C:\\Users\\Fakhr\\GodotProjects\\TrailRenderer\\addons\\TrailRenderer\\Runtime\\TrailRenderer.cs",
               "RelativeToolTip": "addons\\TrailRenderer\\Runtime\\TrailRenderer.cs",
-              "ViewState": "AQIAAIsAAAAAAAAAAAAIwKAAAAAFAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-02-21T18:40:32.478Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "LineRnTest.cs",
               "DocumentMoniker": "C:\\Users\\Fakhr\\GodotProjects\\TrailRenderer\\addons\\TrailRenderer\\testFolder\\LineRnTest.cs",
               "RelativeDocumentMoniker": "addons\\TrailRenderer\\testFolder\\LineRnTest.cs",
               "ToolTip": "C:\\Users\\Fakhr\\GodotProjects\\TrailRenderer\\addons\\TrailRenderer\\testFolder\\LineRnTest.cs",
               "RelativeToolTip": "addons\\TrailRenderer\\testFolder\\LineRnTest.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAmAAAA",
+              "ViewState": "AQIAAHIAAAAAAAAAAAAowIAAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T13:13:44.926Z"
+              "WhenOpened": "2025-10-04T13:13:44.926Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "MouseFollow.cs",
               "DocumentMoniker": "C:\\Users\\Fakhr\\GodotProjects\\TrailRenderer\\addons\\TrailRenderer\\testFolder\\MouseFollow.cs",
               "RelativeDocumentMoniker": "addons\\TrailRenderer\\testFolder\\MouseFollow.cs",
               "ToolTip": "C:\\Users\\Fakhr\\GodotProjects\\TrailRenderer\\addons\\TrailRenderer\\testFolder\\MouseFollow.cs",
               "RelativeToolTip": "addons\\TrailRenderer\\testFolder\\MouseFollow.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAsAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-04T10:27:43.474Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-04T10:27:43.474Z"
             }
           ]
         },

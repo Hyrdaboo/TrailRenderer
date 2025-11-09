@@ -30,6 +30,8 @@ public partial class LineRenderer : Node3D
     [Export] private Curve curve;
     [Export] private Alignment alignment = Alignment.TransformZ;
     [Export] private bool worldSpace = true;
+    [Export(PropertyHint.Range, "0, 3, 1")] private int bevelIterations = 0;
+    [Export(PropertyHint.Range, "0.01, 0.49")] private float bevelAmount = 0.25f;
     [ExportGroup("Appearance")]
     [Export] private Material material;
     [Export] private GeometryInstance3D.ShadowCastingSetting castShadows = GeometryInstance3D.ShadowCastingSetting.Off;
@@ -59,7 +61,7 @@ public partial class LineRenderer : Node3D
 
     public Alignment LineAlignment
     {
-        get => alignment; 
+        get => alignment;
         set => alignment = value;
     }
 
@@ -67,6 +69,18 @@ public partial class LineRenderer : Node3D
     {
         get => worldSpace;
         set => worldSpace = value;
+    }
+
+    public float BevelAmount
+    {
+        get => bevelAmount;
+        set => bevelAmount = Mathf.Clamp(value, 0.01f, 0.49f);
+    }
+
+    public int BevelIterations
+    {
+        get => bevelIterations;
+        set => bevelIterations = Mathf.Clamp(value, 0, 3);
     }
 
     public Material Material
@@ -81,14 +95,14 @@ public partial class LineRenderer : Node3D
 
     public GeometryInstance3D.ShadowCastingSetting CastShadows
     {
-        get => castShadows; 
+        get => castShadows;
         set => castShadows = value;
     }
 
     public Gradient ColorGradient
     {
         get => colorGradient;
-        set 
+        set
         {
             if (value != null)
                 colorGradient = value;
@@ -115,6 +129,42 @@ public partial class LineRenderer : Node3D
         CastShadows = lr.castShadows;
         ColorGradient = lr.colorGradient;
         TextureSamplingMode = lr.textureMode;
+        BevelAmount = lr.bevelAmount;
+        BevelIterations = lr.bevelIterations;
+    }
+
+    private List<Point> ChaikinsSubdivide(List<Point> originalPath)
+    {
+        if (originalPath.Count < 3)
+            return originalPath;
+
+        List<Point> output = originalPath;
+
+        for (int iter = 0; iter < bevelIterations; iter++)
+        {
+            List<Point> newPath = new List<Point>();
+
+            for (int i = 0; i < output.Count; i++)
+            {
+                if (i > 0 && i < output.Count - 1)
+                {
+                    Vector3 p0 = output[i].Position.Lerp(output[i - 1].Position, bevelAmount);
+                    Vector3 p1 = output[i].Position.Lerp(output[i + 1].Position, bevelAmount);
+                    float textureOffset0 = Mathf.Lerp(output[i].textureOffset, output[i - 1].textureOffset, bevelAmount);
+                    float textureOffset1 = Mathf.Lerp(output[i].textureOffset, output[i + 1].textureOffset, bevelAmount);
+                    newPath.Add(new Point(p0, textureOffset0));
+                    newPath.Add(new Point(p1, textureOffset1));
+                }
+                else
+                {
+                    newPath.Add(output[i]);
+                }
+            }
+
+            output = newPath;
+        }
+
+        return output;
     }
 
     public override void _Ready()
@@ -146,52 +196,50 @@ public partial class LineRenderer : Node3D
         meshInstance.GlobalTransform = worldSpace ? Transform3D.Identity : GlobalTransform;
 
         mesh.ClearSurfaces();
-        if (points.Count < 2)
+        if (this.points.Count < 2)
             return;
 
         mesh.SurfaceBegin(Mesh.PrimitiveType.TriangleStrip);
 
+
+        List<Point> points = ChaikinsSubdivide(this.points);
+
+        Vector3 prevBitangent = Vector3.Zero;
         float totalLength = points.Zip(points.Skip(1), (a, b) => a.Position.DistanceTo(b.Position)).Sum();
         float accumulatedLength = 0;
         for (int i = 0; i < points.Count; i++)
         {
             Point currentPoint = points[i];
 
-            Vector3 tangent = i == 0 ? currentPoint.Position.DirectionTo(points[1].Position) : -currentPoint.Position.DirectionTo(points[i-1].Position);
+            Vector3 tangent = i == 0 ? currentPoint.Position.DirectionTo(points[1].Position) : -currentPoint.Position.DirectionTo(points[i - 1].Position);
+            tangent = tangent.Normalized();
+
             Vector3 alignmentVec;
             if (alignment == Alignment.View && worldSpace)
-                alignmentVec = camera.GlobalBasis.Z.Normalized();
+                alignmentVec = currentPoint.Position.DirectionTo(camera.GlobalPosition).Normalized();
             else if (alignment == Alignment.TransformZ && worldSpace)
                 alignmentVec = GlobalBasis.Z.Normalized();
             else
                 alignmentVec = currentPoint.alignmentVector.Normalized();
-            
+
             Vector3 bitangent = alignmentVec.Cross(tangent).Normalized();
             Vector3 normal = tangent.Cross(bitangent).Normalized();
-            
-            float t = i / (points.Count - 1.0f);
-            Color color = colorGradient.Sample(t);
-            bitangent *= curve.Sample(t);
+
+            if (i > 0)
+            {
+                Point previous = points[i - 1];
+                accumulatedLength += currentPoint.Position.DistanceTo(previous.Position);
+            }
 
             switch (textureMode)
             {
                 case TextureMode.Stretch:
-                    if (i > 0)
-                    {
-                        Point previous = points[i - 1];
-                        accumulatedLength += currentPoint.Position.DistanceTo(previous.Position);
-                    }
                     currentPoint.textureOffset = accumulatedLength / totalLength;
                     break;
                 case TextureMode.DistributePerSegment:
                     currentPoint.textureOffset = i / (points.Count - 1.0f);
                     break;
                 case TextureMode.Tile:
-                    if (i > 0)
-                    {
-                        Point previous = points[i - 1];
-                        accumulatedLength += currentPoint.Position.DistanceTo(previous.Position);
-                    }
                     currentPoint.textureOffset = 1 - (totalLength - accumulatedLength);
                     break;
                 case TextureMode.RepeatPerSegment:
@@ -199,19 +247,32 @@ public partial class LineRenderer : Node3D
                     break;
                 case TextureMode.Static:
                     if (!isModifiedByTrailRenderer)
-                    {
-                        if (i > 0)
-                        {
-                            Point previous = points[i - 1];
-                            accumulatedLength += currentPoint.Position.DistanceTo(previous.Position);
-                        }
                         currentPoint.textureOffset = 1 - (totalLength - accumulatedLength);
-                    }
                     break;
                 default:
                     break;
             }
 
+            float t = accumulatedLength / totalLength;
+            Color color = colorGradient.Sample(t);
+            bitangent *= curve.Sample(t);
+
+            /*using (DebugDraw3D.NewScopedConfig()
+             .SetThickness(0.02f)
+             .SetCenterBrightness(0.75f))
+            {
+                DebugDraw3D.DrawLine(currentPoint.Position - bitangent, currentPoint.Position + bitangent, Colors.Black);
+
+                if (prevBitangent != Vector3.Zero)
+                {
+                    Vector3 prevPoint = points[i - 1].Position;
+                    DebugDraw3D.DrawLine(prevPoint - prevBitangent, currentPoint.Position + bitangent, Colors.Black);
+                    DebugDraw3D.DrawLine(prevPoint - prevBitangent, currentPoint.Position - bitangent, Colors.Black);
+                    DebugDraw3D.DrawLine(prevPoint + prevBitangent, currentPoint.Position + bitangent, Colors.Black);
+                }
+            }*/
+            prevBitangent = bitangent;
+            
             mesh.SurfaceSetUV(new Vector2(0, 1 - currentPoint.textureOffset));
             mesh.SurfaceSetNormal(normal);
             mesh.SurfaceSetColor(color);
