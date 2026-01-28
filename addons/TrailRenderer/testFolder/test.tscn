@@ -21,7 +21,7 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="Curve" id="Curve_wb0bp"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.57976645), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
 point_count = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wb0bp"]

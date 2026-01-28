@@ -4,32 +4,32 @@ using System.Linq;
 
 public partial class LineRenderer : Node3D
 {
+    // TransformZ - faces look at current global Z axis; Static - faces look at global Z axis at the time of spawning
     public enum Alignment { View, TransformZ, Static }
     public enum TextureMode { Stretch, Tile, DistributePerSegment, RepeatPerSegment, Static }
     public class Point
     {
         public Vector3 Position;
-        public Vector3 alignmentVector;
+        public Vector3 Normal;
         /// <summary>
         /// DO NOT MODIFY THIS. Used internally by the LineRenderer.
         /// </summary>
         public float textureOffset;
         public readonly float Time;
 
-        public Point(Vector3 position, float textureOffset = 0, Vector3? bitangent = null)
+        public Point(Vector3 position, float textureOffset = 0, Vector3? normal = null)
         {
             this.textureOffset = textureOffset;
-            bitangent ??= Vector3.Forward;
+            normal ??= Vector3.Up;
 
             Position = position;
-            alignmentVector = bitangent.Value.Normalized();
+            this.Normal = normal.Value.Normalized();
             Time = Godot.Time.GetTicksMsec() / 1000.0f;
         }
     }
 
     [Export] private Curve curve;
     [Export] private Alignment alignment = Alignment.TransformZ;
-    [Export] private bool worldSpace = true;
     [Export(PropertyHint.Range, "0, 3, 1")] private int bevelIterations = 0;
     [Export(PropertyHint.Range, "0.01, 0.49")] private float bevelAmount = 0.25f;
     [ExportGroup("Appearance")]
@@ -63,12 +63,6 @@ public partial class LineRenderer : Node3D
     {
         get => alignment;
         set => alignment = value;
-    }
-
-    public bool WorldSpace
-    {
-        get => worldSpace;
-        set => worldSpace = value;
     }
 
     public float BevelAmount
@@ -124,7 +118,6 @@ public partial class LineRenderer : Node3D
     {
         Curve = lr.curve;
         LineAlignment = lr.alignment;
-        WorldSpace = lr.worldSpace;
         Material = lr.material;
         CastShadows = lr.castShadows;
         ColorGradient = lr.colorGradient;
@@ -193,7 +186,7 @@ public partial class LineRenderer : Node3D
     {
         camera = GetViewport().GetCamera3D();
         meshInstance.CastShadow = castShadows;
-        meshInstance.GlobalTransform = worldSpace ? Transform3D.Identity : GlobalTransform;
+        meshInstance.GlobalTransform = Transform3D.Identity;
 
         mesh.ClearSurfaces();
         if (this.points.Count < 2)
@@ -215,12 +208,12 @@ public partial class LineRenderer : Node3D
             tangent = tangent.Normalized();
 
             Vector3 alignmentVec;
-            if (alignment == Alignment.View && worldSpace)
+            if (alignment == Alignment.View)
                 alignmentVec = currentPoint.Position.DirectionTo(camera.GlobalPosition).Normalized();
-            else if (alignment == Alignment.TransformZ && worldSpace)
+            else if (alignment == Alignment.TransformZ)
                 alignmentVec = GlobalBasis.Z.Normalized();
             else
-                alignmentVec = currentPoint.alignmentVector.Normalized();
+                alignmentVec = currentPoint.Normal;
 
             Vector3 bitangent = alignmentVec.Cross(tangent).Normalized();
             Vector3 normal = tangent.Cross(bitangent).Normalized();
@@ -257,20 +250,6 @@ public partial class LineRenderer : Node3D
             Color color = colorGradient.Sample(t);
             bitangent *= curve.Sample(t);
 
-            /*using (DebugDraw3D.NewScopedConfig()
-             .SetThickness(0.02f)
-             .SetCenterBrightness(0.75f))
-            {
-                DebugDraw3D.DrawLine(currentPoint.Position - bitangent, currentPoint.Position + bitangent, Colors.Black);
-
-                if (prevBitangent != Vector3.Zero)
-                {
-                    Vector3 prevPoint = points[i - 1].Position;
-                    DebugDraw3D.DrawLine(prevPoint - prevBitangent, currentPoint.Position + bitangent, Colors.Black);
-                    DebugDraw3D.DrawLine(prevPoint - prevBitangent, currentPoint.Position - bitangent, Colors.Black);
-                    DebugDraw3D.DrawLine(prevPoint + prevBitangent, currentPoint.Position + bitangent, Colors.Black);
-                }
-            }*/
             prevBitangent = bitangent;
             
             mesh.SurfaceSetUV(new Vector2(0, 1 - currentPoint.textureOffset));

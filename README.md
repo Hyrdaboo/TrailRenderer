@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://github.com/Hyrdaboo/TrailRenderer/blob/master/TrailRendererIcon.png" width=30%>
+  <img src="./TrailRendererIcon.png" width=30%>
   <br>
   Trail Renderer
   <br>
@@ -8,8 +8,8 @@
 
 <h4 align="center">A trail/ribbon renderer for Godot similar to Unity's <a href="https://docs.unity3d.com/Manual/class-TrailRenderer.html">TrailRenderer component</a></h4>
 
-<img src="https://github.com/Hyrdaboo/TrailRenderer/blob/master/screenshots/scr1.png" width = 100%>
-<img src="https://github.com/Hyrdaboo/TrailRenderer/blob/master/screenshots/scr2.png" width = 100%>
+<img src="./screenshots/scr1.png" width = 100%>
+<img src="./screenshots/scr2.png" width = 100%>
 
 ## Roadmap
 1. [About](#about)

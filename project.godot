@@ -25,6 +25,7 @@ project/assembly_name="TrailRenderer"
 [file_customization]
 
 folder_colors={
+"res://addons/TrailRenderer/Runtime/": "green",
 "res://addons/TrailRenderer/testFolder/": "red"
 }
 

@@ -95,7 +95,7 @@ public partial class TrailRenderer : LineRenderer
                 float previousOffset = lr.Points[^2].textureOffset;
                 lr.Points[^2].Position = lr.GlobalPosition;
                 lr.Points[^2].textureOffset = previousOffset + lr.Points[^2].Position.DistanceTo(previousPosition);
-                lr.Points.Insert(lr.Points.Count - 2, new Point(previousPosition, previousOffset, tr.GlobalBasis.X.Normalized()));
+                lr.Points.Insert(lr.Points.Count - 2, new Point(previousPosition, previousOffset, tr.GlobalBasis.Z.Normalized()));
                 lastSpawnPoint = lr.GlobalPosition;
             }
 
@@ -103,8 +103,8 @@ public partial class TrailRenderer : LineRenderer
             {
                 lr.Points[^1].textureOffset = lr.Points[^2].textureOffset + lr.Points[^1].Position.DistanceTo(lr.Points[^2].Position);
                 lr.Points[^1].Position = lr.GlobalPosition;
-                lr.Points[^1].alignmentVector = tr.GlobalBasis.X;
-                lr.Points[^2].alignmentVector = tr.GlobalBasis.X;
+                lr.Points[^1].Normal = tr.GlobalBasis.Z;
+                lr.Points[^2].Normal = tr.GlobalBasis.Z;
             }
         }
 
