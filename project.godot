@@ -8,10 +8,14 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="TrailRenderer"
-config/features=PackedStringArray("4.5", "C#", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [debug_draw_3d]
@@ -25,8 +29,7 @@ project/assembly_name="TrailRenderer"
 [file_customization]
 
 folder_colors={
-"res://addons/TrailRenderer/Runtime/": "green",
-"res://addons/TrailRenderer/testFolder/": "red"
+"res://addons/TrailRenderer/Runtime/": "green"
 }
 
 [input]

@@ -130,7 +130,7 @@ public partial class TrailRenderer : LineRenderer
             }
         }
     }
-
+    
     [Export] public float Lifetime = 1.0f;
     [Export] public float MinVertexDistance = 0.5f;
     [Export] public bool Emitting = true;

@@ -8,26 +8,39 @@
 
 <h4 align="center">A trail/ribbon renderer for Godot similar to Unity's <a href="https://docs.unity3d.com/Manual/class-TrailRenderer.html">TrailRenderer component</a></h4>
 
+<img src="./screenshots/sword_showcase.gif" width = 100%>
+<img src="./screenshots/default_showcase.gif" width = 100%>
 <img src="./screenshots/scr1.png" width = 100%>
 <img src="./screenshots/scr2.png" width = 100%>
 
 ## Roadmap
 1. [About](#about)
-2. [Features](#features)
-3. [Installation and Setup](#installation-and-setup)
-4. [Usage](#usage)
-5. [Trail Settings](#trail-settings)
-6. [Known Issues](#known-issues)
+2. [Godot 4.5+ Update](#godot-45-update)
+3. [Features](#features)
+4. [Installation and Setup](#installation-and-setup)
+5. [Usage](#usage)
+6. [Trail Settings](#trail-settings)
 
 ## About
 This is an implementation of trail/ribbon renderer similar to that in Unity. It can be used to give an emphasized feeling of motion to a moving object, or to highlight the path or position of moving objects. It also comes with a LineRenderer which is actually what's used by the TrailRenderer to draw the trail. Note that this plugin only supports 3D.
 
-**Update:** There's now a GDScript implementation. Use ```TrailRenderer.cs``` with C# and similarly ```trail_renderer.gd``` for GDScript. Both C# and GDScript implementations are in the _addons/TrailRenderer/Runtime_ folder.
+### Godot 4.5+ Update
+> [!IMPORTANT]
+> The new updates are only present in C# version of the plugin.
+> GDScript version will probably work fine in new Godot versions but doesn't have the new features until someone else adds them because I don't know GDScript well enough to do so.
+
+<h4> What has changed: </h4>
+
+* **New Texture Modes:** Added new texture modes add fixed the existing ones
+* **Better Alignment**: Fixed some of the jank with alignment modes
+* **Beveling:** Added beveling with Chaikin's algorithm to smooth out the edges. This helps with trails that have high `MinVertexDistance`.
+
 ## Features
 * Variable width with curve
 * Variable color with gradient
 * Different alignment modes
-* Texture modes (tiling, stretching)
+* Texture modes (tiling, stretching, static, etc.)
+* Beveling for smoother edges
 
 ## Installation and Setup
 ### Installation
@@ -41,12 +54,19 @@ If you don't have git you can also download zip by clicking _**Code>Download ZIP
 * Drag and drop this folder into your project.
 * If your project already has an _addons_ folder then drag and drop the contents of the _addons_ folder into your existing one.
 
-You will also need this input configuration if you want to check out the demo:
+You will also need this input configuration if you want to check out the demos:
 
 ![image](https://github.com/Hyrdaboo/TrailRenderer/assets/67780454/08fcc821-0e14-48b5-9bd5-9542fa365866)
 
 ## Usage
-Simply create a new _Node3D_ and add a TrailRenderer script to it. You can move this object in your game either from code or parenting it to another object(whatever you wish) and it will draw a trail behind it. You can also change the parameters you set in the inspector from code.
+Simply create a new _Node3D_ and add a TrailRenderer script to it. Use `TrailRenderer.cs` for C# and `trail_renderer.gd` for GDScript. All scripts are located under `addons/TrailRenderer/Runtime/` and GDScript version is in `GD/` subfolder. 
+
+You can move this object in your game either from code or parenting it to another object(whatever you wish) and it will draw a trail behind it. You can also change the parameters you set in the inspector from code.
+
+> [!NOTE]
+> `TrailRenderer` inherits from `LineRenderer` so below parameters show them together. 
+>
+> `TrailRenderer` specific parameters are below `TrailRenderer` and `LineRenderer` specific parameters are below `LineRenderer`.
 
 
 ## Trail Settings
@@ -60,7 +80,8 @@ Simply create a new _Node3D_ and add a TrailRenderer script to it. You can move 
   * **View:** The trail faces the camera
   * **TransformZ:** The trail faces the Z axis of its GlobalBasis
   * **Static:** Every quad in the trail face the Z axis of the object's GlobalBasis when the point was emitted
-* **World Space:** Sets whether the trail is emitted in world space or relative to the object its emitted from ( I recommend leaving this on)
+* **Bevel Iterations:** Number of subdivisions for the trail mesh edges. Higher values result in smoother edges but may impact performance.
+* **Bevel Amount:** The amount of bevel applied to the trail mesh edges.
 #### Appearance
   * **Material:** Material override used by the trail
   * **Cast Shadows:** Set the shadow casting mode for the trail mesh
@@ -68,10 +89,6 @@ Simply create a new _Node3D_ and add a TrailRenderer script to it. You can move 
   * **Texture Mode:** Control how the Texture is applied to the trail.
 	* **Stretch:** Map the texture once along the entire length of the trail.
 	* **Tile:** Repeat the texture along the trail, based on its length in world units. Use the material UV1 to change the tiling rate.
-	* **Per Segment:** Repeat the texture along the trail, repeating at a rate of once per trail segment.
-
-> [!NOTE]
-> Trail renderer specific parameters are defined in the _TrailRenderer_ category and the things related to the way trail is drawn are in the _LineRenderer_ category
-
-## Known Issues
-While this plugin tries to replicate unity it's not perfect. There are a few bugs and glitches here and there and I haven't really tested its performance.
+	* **DistributePerSegment:** Map the texture once along the entire length of the trail, assuming all vertices are evenly spaced.
+    * **RepeatPerSegment:** Repeat the texture along the trail, repeating at a rate of once per trail segment.
+    * **Static:** The texture is mapped based on the world position of each vertex, resulting in a static texture that does not move with the trail.
