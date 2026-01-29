@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://cdyrkhcqitoyq"]
+
+[ext_resource type="Texture2D" uid="uid://df4qhgxurr8su" path="res://addons/TrailRenderer/Samples/Textures/texture_01.png" id="1_du4xg"]
+[ext_resource type="PackedScene" uid="uid://cxjfm0xgrbkbh" path="res://addons/TrailRenderer/Samples/Prefabs/Hand/hand.tscn" id="3_adkco"]
+[ext_resource type="Script" uid="uid://dce57vbki85i6" path="res://addons/TrailRenderer/Samples/Scripts/HandController.cs" id="3_jjdgq"]
+[ext_resource type="AudioStream" uid="uid://dfnb4eo4loyef" path="res://addons/TrailRenderer/Samples/sfx/swing.wav" id="5_s1dtj"]
+
+[sub_resource type="Environment" id="Environment_plutb"]
+background_mode = 1
+background_color = Color(0.105882, 0.105882, 0.105882, 1)
+tonemap_mode = 3
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 1.0
+glow_hdr_threshold = 1.15
+fog_enabled = true
+fog_light_color = Color(0.141176, 0.141176, 0.141176, 1)
+fog_density = 0.0577
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_km636"]
+albedo_texture = ExtResource("1_du4xg")
+albedo_texture_force_srgb = true
+uv1_scale = Vector3(1000, 1000, 1000)
+texture_filter = 5
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ir5pq"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_gnryw"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s7kgq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_du4xg"]
+
+[node name="SwordDemo" type="Node3D" unique_id=403423159]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1011086027]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+light_energy = 2.0
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1930899695]
+environment = SubResource("Environment_plutb")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=753869819]
+transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_km636")
+mesh = SubResource("PlaneMesh_ir5pq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground" unique_id=652320551]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D" unique_id=937959423]
+shape = SubResource("ConcavePolygonShape3D_gnryw")
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=2097019767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80953, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=672082233]
+shape = SubResource("CapsuleShape3D_s7kgq")
+
+[node name="Camera3D" type="Camera3D" parent="Player" unique_id=1462756011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+current = true
+fov = 50.0
+
+[node name="AudioListener3D" type="AudioListener3D" parent="Player/Camera3D" unique_id=1486640754]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Hand" parent="Player/Camera3D" unique_id=1234003061 node_paths=PackedStringArray("audioPlayer") instance=ExtResource("3_adkco")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26, 0)
+script = ExtResource("3_jjdgq")
+audioPlayer = NodePath("AudioStreamPlayer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player/Camera3D/Hand" unique_id=1245420046]
+stream = ExtResource("5_s1dtj")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=21252520]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer" unique_id=229237355]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_du4xg")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/PanelContainer" unique_id=454234161]
+layout_mode = 2
+text = "[LMB] Swing sword"

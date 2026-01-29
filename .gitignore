@@ -15,3 +15,4 @@ data_*/
 mono_crash.*.json
 
 junk/
+addons/debug_draw_3d/

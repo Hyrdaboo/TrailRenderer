@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbi5wv5y4dgdh"
-path="res://.godot/imported/TrailRendererIcon.png-4834991073366e30ce631945ae3e42d7.ctex"
+uid="uid://dqn0nwsyfdicl"
+path="res://.godot/imported/Hand_Remy_Body_Specular.png-7c684a42c412fa4ad34343235d7f9ac3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TrailRendererIcon.png"
-dest_files=["res://.godot/imported/TrailRendererIcon.png-4834991073366e30ce631945ae3e42d7.ctex"]
+source_file="res://addons/TrailRenderer/Samples/Prefabs/Hand/Hand_Remy_Body_Specular.png"
+dest_files=["res://.godot/imported/Hand_Remy_Body_Specular.png-7c684a42c412fa4ad34343235d7f9ac3.ctex"]
 
 [params]
 

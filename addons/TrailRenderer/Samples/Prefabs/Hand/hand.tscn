@@ -1,0 +1,96 @@
+[gd_scene load_steps=12 format=3 uid="uid://cxjfm0xgrbkbh"]
+
+[ext_resource type="PackedScene" uid="uid://d4e8mynfd028l" path="res://addons/TrailRenderer/Samples/Prefabs/Hand/Hand.glb" id="1_c4ly5"]
+[ext_resource type="Texture2D" uid="uid://dsgq3saljl2jj" path="res://addons/TrailRenderer/Samples/Prefabs/Hand/Hand_Remy_Body_Diffuse.png" id="2_miryi"]
+[ext_resource type="Texture2D" uid="uid://bqhsknecm0qnb" path="res://addons/TrailRenderer/Samples/Prefabs/Hand/Hand_LongSword-BaseColor.png" id="2_wy341"]
+[ext_resource type="Texture2D" uid="uid://b66pdybelxjeo" path="res://addons/TrailRenderer/Samples/Prefabs/Hand/Hand_LSword-Metallic.png" id="3_0vna2"]
+[ext_resource type="Script" uid="uid://dv6ser7ob4efb" path="res://addons/TrailRenderer/Runtime/TrailRenderer.cs" id="4_pctp1"]
+[ext_resource type="Texture2D" uid="uid://cu6fd52pc7ak5" path="res://addons/TrailRenderer/Samples/Textures/sword_tex.png" id="5_3q4aa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_11nce"]
+albedo_texture = ExtResource("2_wy341")
+metallic = 1.0
+metallic_texture = ExtResource("3_0vna2")
+roughness = 0.53
+
+[sub_resource type="Curve" id="Curve_3q4aa"]
+_data = [Vector2(0, 0.34630346), 0.0, 0.124513626, 0, 0, Vector2(1, 0.5019455), 0.15564203, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hsqaf"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(1.8247963, 0.7940265, 0.23899658, 1)
+albedo_texture = ExtResource("5_3q4aa")
+
+[sub_resource type="Gradient" id="Gradient_3q4aa"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b3xvg"]
+albedo_texture = ExtResource("2_miryi")
+metallic = 0.44
+
+[node name="Hand" instance=ExtResource("1_c4ly5")]
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/0/position = Vector3(-0.09993841, 1.0460784, -0.07550965)
+bones/0/rotation = Quaternion(-0.51753426, -0.6430461, 0.0027263013, -0.5644844)
+bones/1/position = Vector3(9.063816e-05, 0.55842674, -1.8686203e-05)
+bones/1/rotation = Quaternion(0.1151686, -0.118732266, 0.03676101, 0.9855392)
+bones/2/position = Vector3(8.020886e-05, 0.5031444, 2.7961882e-05)
+bones/2/rotation = Quaternion(-7.451307e-09, -5.3584576e-05, 9.071039e-08, 1)
+bones/3/position = Vector3(4.238671e-05, 0.2606574, -9.66355e-06)
+bones/3/rotation = Quaternion(0.62324756, -1.0717946e-08, -1.5784925e-08, 0.7820246)
+bones/4/position = Vector3(0.004604704, 0.06159004, -4.358737e-06)
+bones/4/rotation = Quaternion(0.68622637, 1.3048512e-07, 1.6781465e-08, 0.7273881)
+bones/5/position = Vector3(1.1919302e-05, 0.07279775, 1.14960985e-05)
+bones/5/rotation = Quaternion(0.64344263, 0.033633973, 0.00803939, 0.7647128)
+bones/6/position = Vector3(1.1038657e-05, 0.074588776, -6.951539e-06)
+bones/7/position = Vector3(0.061426297, 0.104459874, 0.022275576)
+bones/7/rotation = Quaternion(0.2500142, 0.021052256, -0.06488264, 0.9658364)
+bones/8/rotation = Quaternion(-0.015579314, 0.05697572, 0.2632981, 0.9629046)
+bones/9/position = Vector3(-0.00068086, 0.08480414, -0.005103626)
+bones/9/rotation = Quaternion(-0.059494108, 0.114453755, 0.45739678, 0.87985736)
+bones/11/position = Vector3(0.051109336, 0.26601893, 0.0054469258)
+bones/11/rotation = Quaternion(0.4721458, -2.1407681e-08, -6.031139e-08, 0.8815205)
+bones/12/position = Vector3(1.0281586e-05, 0.075661995, 0.0025310218)
+bones/12/rotation = Quaternion(0.8558996, 9.333604e-08, 3.1477764e-08, 0.5171421)
+bones/13/position = Vector3(1.1932067e-05, 0.07414734, -7.09284e-06)
+bones/13/rotation = Quaternion(0.2889253, -2.5868385e-08, 1.1771052e-08, 0.9573517)
+bones/14/position = Vector3(9.7714055e-06, 0.055213615, -6.8655972e-06)
+bones/15/position = Vector3(-0.039799653, 0.24088196, -4.3647524e-06)
+bones/15/rotation = Quaternion(0.64640903, 7.614774e-08, 7.44319e-08, 0.7629911)
+bones/16/rotation = Quaternion(0.67334044, -1.0258983e-07, -5.7044147e-08, 0.73933256)
+bones/17/position = Vector3(1.0662697e-05, 0.06835471, -5.3839663e-06)
+bones/17/rotation = Quaternion(0.7274515, 2.6334635e-07, -4.8978137e-08, 0.6861591)
+bones/19/position = Vector3(-0.08537775, 0.209907, 0.004981512)
+bones/19/rotation = Quaternion(0.3848235, -0.0039091557, 0.015687043, 0.9228486)
+bones/20/rotation = Quaternion(0.631276, 0.02795923, -0.13017127, 0.7640447)
+bones/21/position = Vector3(6.1629303e-06, 0.037665356, -3.928315e-06)
+bones/21/rotation = Quaternion(0.46413964, 1.5090686e-07, -2.7037166e-07, 0.88576204)
+bones/23/rotation = Quaternion(0.35286, 0.611573, -0.44814, 0.548305)
+bones/23/scale = Vector3(1, 1, 1)
+
+[node name="LongSword" parent="Armature/Skeleton3D" index="0"]
+transform = Transform3D(-0.5836517, 0.5418607, -0.6047623, 0.7106771, 0.70115274, -0.05764408, 0.39279553, -0.4634348, -0.79431695, 0.5559827, 1.0823874, -0.45481235)
+
+[node name="LongSword" parent="Armature/Skeleton3D/LongSword" index="0"]
+transform = Transform3D(1, 0, -2.98023e-08, 2.98023e-08, 1, 5.96046e-08, -2.98023e-08, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_11nce")
+cast_shadow = 0
+
+[node name="Trail" type="Node3D" parent="Armature/Skeleton3D/LongSword/LongSword" index="0"]
+transform = Transform3D(-0.12799922, -0.057641886, -0.9900981, 0.9916125, 0.0106131025, -0.12881294, 0.017933076, -0.99828136, 0.055799883, 0.43324587, 0.5771681, -1.0663698)
+script = ExtResource("4_pctp1")
+Lifetime = 0.2
+MinVertexDistance = 0.1
+curve = SubResource("Curve_3q4aa")
+alignment = 2
+material = SubResource("StandardMaterial3D_hsqaf")
+colorGradient = SubResource("Gradient_3q4aa")
+
+[node name="Body" parent="Armature/Skeleton3D" index="1"]
+material_override = SubResource("StandardMaterial3D_b3xvg")
+cast_shadow = 0
